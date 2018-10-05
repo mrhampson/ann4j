@@ -4,9 +4,6 @@
  */
 package com.mrhampson.ann4j;
 
-import com.mrhampson.ann4j.utils.Pair;
-
-import java.util.Arrays;
 import java.util.function.Supplier;
 
 public class TestMain {
@@ -40,6 +37,6 @@ public class TestMain {
       .takesInput(hidden3, 0.9)
       .build();
     
-    System.out.println("Final output: " + output.getOutput());
+    System.out.println("Final output: " + output.calculateOutput());
   }
 }
