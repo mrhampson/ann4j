@@ -2,26 +2,26 @@ package main.java.com.mrhampson.ann4j;
 
 import main.java.com.mrhampson.ann4j.utils.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @author Marshall Hampson
  */
 public class Neuron {
-  private final List<Pair<Neuron, Double>> inputs = new ArrayList<>();
+  private final List<Pair<Supplier<Double>, Double>> inputs;
   private final ActivationFunction activationFunction;
   
-  public Neuron(ActivationFunction activationFunction) {
-    Objects.requireNonNull(activationFunction);
+  public Neuron(
+    ActivationFunction activationFunction,
+    List<Pair<Supplier<Double>, Double>> inputs) {
     this.activationFunction = activationFunction;
+    this.inputs = inputs;
   }
   
-  public double calculateOutput() {
+  public double getOutput() {
     double sum = inputs.stream()
-      .mapToDouble(input -> input.getFirst().calculateOutput() * input.getSecond())
+      .mapToDouble(input -> input.getFirst().get() * input.getSecond())
       .sum();
     return activationFunction.apply(sum);
   }
