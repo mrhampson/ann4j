@@ -1,6 +1,6 @@
-package main.java.com.mrhampson.ann4j;
+package com.mrhampson.ann4j;
 
-import main.java.com.mrhampson.ann4j.utils.Pair;
+import com.mrhampson.ann4j.utils.Pair;
 
 import java.util.List;
 import java.util.function.Supplier;

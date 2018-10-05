@@ -2,9 +2,9 @@
  * TestMain.java
  * Created on Oct 05, 2018, 10:56 AM
  */
-package main.java.com.mrhampson.ann4j;
+package com.mrhampson.ann4j;
 
-import main.java.com.mrhampson.ann4j.utils.Pair;
+import com.mrhampson.ann4j.utils.Pair;
 
 import java.util.Arrays;
 import java.util.function.Supplier;

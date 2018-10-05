@@ -1,4 +1,4 @@
-package main.java.com.mrhampson.ann4j;
+package com.mrhampson.ann4j;
 
 import java.util.function.Function;
 

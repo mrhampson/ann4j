@@ -1,4 +1,4 @@
-package main.java.com.mrhampson.ann4j.utils;
+package com.mrhampson.ann4j.utils;
 
 /**
  * @author Marshall Hampson
