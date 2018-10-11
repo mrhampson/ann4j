@@ -56,7 +56,7 @@ public class Network {
         for (int i = 0 ; i < neuron.getInputs().size(); i++) {
           WeightInputPair weightInputPair = neuron.getInputs().get(i);
           double deltaHiddenSum = deltaOutput / oldWeight * ActivationFunctions.sigmoidDerivative(inputSum);
-          weightInputPair.setWeight(deltaHiddenSum / weightInputPair.getInput().get());
+          weightInputPair.setWeight(weightInputPair.getWeight() + deltaHiddenSum / weightInputPair.getInput().get());
         }
       }
     }
