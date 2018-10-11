@@ -13,7 +13,9 @@
  */
 package com.mrhampson.ann4j;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Marshall Hampson
@@ -21,9 +23,9 @@ import java.util.List;
 public class Network {
   private final Neuron output;
   private final List<Neuron> hiddenLayer;
-  private final List<WeightInputPair> inputLayer;
+  private final List<Supplier<Double>> inputLayer;
   
-  public Network(List<WeightInputPair> inputLayer, List<Neuron> hiddenLayer, Neuron output) {
+  public Network(List<Supplier<Double>> inputLayer, List<Neuron> hiddenLayer, Neuron output) {
     this.inputLayer = inputLayer;
     this.hiddenLayer = hiddenLayer;
     this.output = output;
@@ -41,13 +43,21 @@ public class Network {
     double marginOfError = targetValue - currentOutput;
     
     // TODO generalize this for other activation functions besides sigmoid
-    double deltaOutput = ActivationFunctions.sigmoidDerivative(currentOutput) * marginOfError;
+    double currentOutputSum = output.getInputs().stream().mapToDouble(input -> input.getNeuron().getMostRecentOutput() * input.getWeight()).sum();
+    double deltaOutput = ActivationFunctions.sigmoidDerivative(currentOutputSum) * marginOfError;
     for (WeightInputPair input : output.getInputs()) {
       Neuron neuron = input.getNeuron();
       if (neuron != null) {
         double lastOutput = neuron.getMostRecentOutput();
-        double newWeight = deltaOutput / lastOutput;
-        // TODO finish
+        double newWeight = input.getWeight() + deltaOutput / lastOutput;
+        double oldWeight = input.getWeight();
+        input.setWeight(newWeight);
+        double inputSum = neuron.getInputs().stream().mapToDouble(pair -> pair.getInput().get() * pair.getWeight()).sum();
+        for (int i = 0 ; i < neuron.getInputs().size(); i++) {
+          WeightInputPair weightInputPair = neuron.getInputs().get(i);
+          double deltaHiddenSum = deltaOutput / oldWeight * ActivationFunctions.sigmoidDerivative(inputSum);
+          weightInputPair.setWeight(deltaHiddenSum / weightInputPair.getInput().get());
+        }
       }
     }
   }

@@ -4,6 +4,7 @@
  */
 package com.mrhampson.ann4j;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 public class TestMain {
@@ -37,6 +38,11 @@ public class TestMain {
       .takesInput(hidden3, 0.9)
       .build();
     
-    System.out.println("Final output: " + output.calculateOutput());
+    Network network = new Network(Arrays.asList(input1, input2), Arrays.asList(hidden1, hidden2, hidden3), output);
+    
+    System.out.println("Initial output: " + output.calculateOutput());
+    
+    network.backpropogate(0);
+    System.out.println("After backprop 1 output: " + output.calculateOutput());
   }
 }
