@@ -1,5 +1,7 @@
 package com.mrhampson.ann4j;
 
+import com.mrhampson.ann4j.util.MutableSupplier;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +37,7 @@ public class Neuron {
 
   public double calculateOutput() {
     double sum = inputs.stream()
-      .mapToDouble(inputPair -> inputPair.getInput().get() * inputPair.getWeight())
+      .mapToDouble(inputPair -> inputPair.getInputSupplier().get() * inputPair.getWeight())
       .sum();
     mostRecentOutput =  activationFunction.apply(sum);
     return mostRecentOutput;
@@ -51,7 +53,7 @@ public class Neuron {
       return this;
     }
     
-    public Builder takesInput(Supplier<Double> input, double weight) {
+    public Builder takesInput(MutableSupplier<Double> input, double weight) {
       Objects.requireNonNull(input);
       this.inputs.add(new WeightInputPair(input, weight, null));
       return this;

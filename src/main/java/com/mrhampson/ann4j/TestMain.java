@@ -1,17 +1,14 @@
-/*
- * TestMain.java
- * Created on Oct 05, 2018, 10:56 AM
- */
 package com.mrhampson.ann4j;
 
+import com.mrhampson.ann4j.util.MutableSupplier;
+
 import java.util.Arrays;
-import java.util.function.Supplier;
 
 public class TestMain {
   
   public static void main(String[] args) {
-    Supplier<Double> input1 = () -> 1d;
-    Supplier<Double> input2 = () -> 1d;
+    MutableSupplier<Double> input1 = new MutableSupplier<>(1d);
+    MutableSupplier<Double> input2 = new MutableSupplier<>(1d);
     
     Neuron hidden1 = new Neuron.Builder()
       .withActivationFunction(ActivationFunctions::sigmoid)
@@ -38,11 +35,23 @@ public class TestMain {
       .takesInput(hidden3, 0.9)
       .build();
     
-    Network network = new Network(Arrays.asList(input1, input2), Arrays.asList(hidden1, hidden2, hidden3), output);
+    ANN network = new ANN(Arrays.asList(input1, input2), Arrays.asList(hidden1, hidden2, hidden3), output);
     
-    System.out.println("Initial output: " + output.calculateOutput());
-    
-    network.backpropogate(0);
-    System.out.println("After backprop 1 output: " + output.calculateOutput());
+    double[][] testingInputs = {
+      {10, 10},
+      {9, 9},
+      {8, 8},
+      {7, 7},
+      {6, 6},
+      {5, 5},
+      {4, 4},
+      {3, 3},
+      {2, 2},
+      {1, 1}
+    };
+    double[] testingOutputs = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+    network.train(testingInputs, testingOutputs, 1_000_000);
+    double prediction = network.predict(Arrays.asList(1d, 1d));
+    System.out.println("Prediction for 5,5 " + prediction);
   }
 }

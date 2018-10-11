@@ -1,7 +1,3 @@
-/*
- * ActivationFunctions.java
- * Created on Oct 05, 2018, 10:44 AM
- */
 package com.mrhampson.ann4j;
 
 public class ActivationFunctions {
